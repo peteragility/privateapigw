@@ -4,7 +4,7 @@ Amazon API Gateway provides custom domain support for public API, which you can 
 
 ## The Architecture
 
-![](https://raw.githubusercontent.com/peterone928/privateapigw/master/images/apigw-private-custom-domain.jpg)
+![](https://raw.githubusercontent.com/peterone928/privateapigw/master/diagram/apigw-private-custom-domain.jpg)
 
 ## To deploy the sample stack
 
