@@ -128,7 +128,9 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/osx,node,linux,windows
 
-*.js
+bin/*.js
+lib/*.js
+test/*.js
 !jest.config.js
 *.d.ts
 node_modules
@@ -137,3 +139,4 @@ node_modules
 .cdk.staging
 cdk.out
 package-lock.json
+

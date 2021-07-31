@@ -12,6 +12,8 @@
     "@aws-cdk/aws-ecs-patterns:removeDefaultDesiredCount": true,
     "@aws-cdk/aws-rds:lowercaseDbIdentifier": true,
     "@aws-cdk/aws-efs:defaultEncryptionAtRest": true,
-    "@aws-cdk/aws-lambda:recognizeVersionProps": true
+    "@aws-cdk/aws-lambda:recognizeVersionProps": true,
+    "myCertArn": "arn:aws:acm:ap-northeast-1:123456789012:certificate/8accccf5-3582-407a-ad43-027baed59bf0",
+    "myDomain": "myapitest.com"
   }
 }
