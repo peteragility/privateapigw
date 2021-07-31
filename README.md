@@ -40,5 +40,5 @@ This repo is a AWS CDK stack to deploy the architecture above into your AWS acco
   ```
 - Spin up an testing EC2 in testing VPC, SSH to it and run the following command to test the private api using custom domain (for example, myapitest.com):
    ```
-   curl https://myapitest.com --insecure
+   curl -v https://myapitest.com --insecure
    ```
