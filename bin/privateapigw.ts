@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import * as cdk from '@aws-cdk/core';
+import { App } from 'aws-cdk-lib/core';
 import { PrivateapigwStack } from '../lib/privateapigw-stack';
 
-const app = new cdk.App();
+const app = new App();
 new PrivateapigwStack(app, 'PrivateapigwStack');

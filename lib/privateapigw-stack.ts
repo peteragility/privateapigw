@@ -1,19 +1,49 @@
-import * as cdk from '@aws-cdk/core';
-import * as apigw from '@aws-cdk/aws-apigateway';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as iam from '@aws-cdk/aws-iam';
-import { Peer, Port, SecurityGroup, SubnetType } from '@aws-cdk/aws-ec2';
-import { IpTarget, ListenerCertificate, NetworkLoadBalancer, NetworkTargetGroup, Protocol, TargetType } from '@aws-cdk/aws-elasticloadbalancingv2';
-import { AwsCustomResource, AwsCustomResourcePolicy, PhysicalResourceId } from '@aws-cdk/custom-resources';
-import { Token } from '@aws-cdk/core';
-import { Certificate } from '@aws-cdk/aws-certificatemanager';
-import { SecurityPolicy } from '@aws-cdk/aws-apigateway';
-import { ARecord, PrivateHostedZone, RecordTarget } from '@aws-cdk/aws-route53';
-import { LoadBalancerTarget } from '@aws-cdk/aws-route53-targets';
-import { Code, Function, Runtime } from '@aws-cdk/aws-lambda';
+import { 
+  App, 
+  Stack, 
+  StackProps
+} from 'aws-cdk-lib';
+import { Construct } from "constructs";
+import { aws_apigateway as apigw } from 'aws-cdk-lib';
+import { aws_ec2 as ec2} from 'aws-cdk-lib';
+import { aws_iam as iam} from 'aws-cdk-lib';
+import {
+  Peer,
+  Port,
+  SecurityGroup,
+  SubnetType,
+} from "aws-cdk-lib/aws-ec2";
+import { 
+  ListenerCertificate,
+  NetworkLoadBalancer,
+  NetworkTargetGroup,
+  Protocol,
+  TargetType,
+ } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
+import { IpTarget } from 'aws-cdk-lib/aws-elasticloadbalancingv2-targets';
+import {
+  AwsCustomResource,
+  AwsCustomResourcePolicy,
+  PhysicalResourceId,
+} from "aws-cdk-lib/custom-resources";
+import { Token } from 'aws-cdk-lib/core';
+import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
+import { SecurityPolicy } from 'aws-cdk-lib/aws-apigateway';
+import {
+  ARecord,
+  PrivateHostedZone,
+  RecordTarget,
+} from 'aws-cdk-lib/aws-route53';
+import { LoadBalancerTarget } from 'aws-cdk-lib/aws-route53-targets';
+import { 
+  Code,
+  Function,
+  Runtime,
+ } from 'aws-cdk-lib/aws-lambda';
 
-export class PrivateapigwStack extends cdk.Stack {
-  constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
+
+export class PrivateapigwStack extends Stack {
+  constructor(scope: App, id: string, props?: StackProps) {
     super(scope, id, props);
 
     // Set domain and imported ACM cert ARN
@@ -26,7 +56,7 @@ export class PrivateapigwStack extends cdk.Stack {
       cidr: '10.0.0.0/16',
       subnetConfiguration: [{
         name: 'isolated',
-        subnetType: SubnetType.ISOLATED
+        subnetType: SubnetType.PRIVATE_ISOLATED
       }]
     })
 
@@ -141,7 +171,7 @@ export class PrivateapigwStack extends cdk.Stack {
 
     // The api gateway with lambda hello world backend
     const lambdaBackend = new Function(this, 'lambdaBackend', {
-      runtime: Runtime.NODEJS_12_X,
+      runtime: Runtime.NODEJS_14_X,
       handler: 'app.lambdaHandler',
       code: Code.fromAsset('lambda')
     });
@@ -160,34 +190,6 @@ export class PrivateapigwStack extends cdk.Stack {
       },
       handler: lambdaBackend
     });
-
-    // The api gateway simply proxy all reqeusts to amazon.com started
-    /*
-    api.root.addMethod('ANY', new apigw.HttpIntegration('https://www.amazon.com/'));
-
-    api.root.addProxy({
-      anyMethod: true,
-      defaultIntegration: new apigw.HttpIntegration(
-        'https://www.amazon.com/{proxy}',
-        {
-          httpMethod: "GET",
-          options: {
-            requestParameters: {
-              "integration.request.path.proxy": "method.request.path.proxy",
-            },
-          },
-          proxy: true,
-        },
-      ),
-      defaultMethodOptions: {
-        methodResponses: [{ statusCode: "200" }],
-        requestParameters: {
-          "method.request.path.proxy": true,
-        },
-      },
-    });
-    */
-    // The api gateway simply proxy all reqeusts to amazon.com ended
 
   }
 }
